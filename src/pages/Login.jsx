@@ -8,7 +8,7 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    url("https://images.squarespace-cdn.com/content/v1/6123ebd79384bb18e8325908/dd8eea1e-3f01-45e5-a9b8-ba1172f00930/Portafolio1.jpg?format=500w")
       center;
   background-size: cover;
   display: flex;
@@ -44,7 +44,7 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: teal;
+  background-color: blue;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
@@ -70,20 +70,20 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>SIGN IN</Title>
+        <Title>Iniciar Sesión</Title>
         <Form>
           <Input
-            placeholder="username"
+            placeholder="Nombre de usuario"
           />
           <Input
-            placeholder="password"
+            placeholder="contraseña"
             type="password"
           />
           <Button>
-            LOGIN
+            Acceder
           </Button>
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Link>¿No recuerda la contraseña?</Link>
+          <Link>Crea una cuenta nuevas</Link>
         </Form>
       </Wrapper>
     </Container>

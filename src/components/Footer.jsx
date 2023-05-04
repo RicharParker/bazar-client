@@ -90,8 +90,11 @@ const Footer = () => {
       <Left>
         <Logo>Universidad La Salle Oaxaca</Logo>
         <Desc>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora repudiandae reprehenderit accusantium ipsa at odio, 
-          corrupti laborum tenetur animi eligendi officia voluptatibus alias similique minus dolores quidem expedita aliquid doloribus.
+        Inspirada en la herencia Lasallista, la misión de la Universidad La Salle Oaxaca es contribuir a la formación 
+        de la persona fundamentada en su desarrollo armónico  y compromiso solidario,  con el fin de coadyuvar en la 
+        construcción de una sociedad más digna e incluyente
+
+
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
@@ -108,10 +111,10 @@ const Footer = () => {
           <Room style={{marginRight:"10px"}}/> Santa Cruz Xoxocotlan
         </ContactItem>
         <ContactItem>
-          <Phone style={{marginRight:"10px"}}/> +1 234 56 78
+          <Phone style={{marginRight:"10px"}}/> 951 502 9333
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> ulsa.com.mx
+          <MailOutline style={{marginRight:"10px"}} /> LaSalle@Oaxaca.ulsa.com.mx
         </ContactItem>
       </Right>
     </Container>

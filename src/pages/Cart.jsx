@@ -170,14 +170,15 @@ const Cart = () => {
     <Container>
       <Navbar />
       <Wrapper>
-        <Title>YOUR BAG</Title>
+        <Title>Tu Compra</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton>Seguir comprando</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
+            <TopText>Bolsa de la compra(1)</TopText>
+            <TopText>Tu lista de deseos (0)</TopText>
           </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+          <TopButton type="filled">CHEQUEAR AHORA
+</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -187,14 +188,14 @@ const Cart = () => {
                   <Image src={product.img} />
                   <Details>
                     <ProductName>
-                      <b>Product:</b> {product.title}
+                      <b>Producto:</b> {product.title}
                     </ProductName>
                     <ProductId>
                       <b>ID:</b> {product._id}
                     </ProductId>
                     <ProductColor color={product.color} />
                     <ProductSize>
-                      <b>Size:</b> {product.size}
+                      <b>Tamaño:</b> {product.size}
                     </ProductSize>
                   </Details>
                 </ProductDetail>
@@ -213,18 +214,18 @@ const Cart = () => {
             <Hr />
           </Info>
           <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryTitle>RESUMEN DEL PEDIDO</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              <SummaryItemText>Envío estimado</SummaryItemText>
+              <SummaryItemPrice>$50</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemText>Descuento de envío</SummaryItemText>
+              <SummaryItemPrice>$50</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
@@ -233,9 +234,7 @@ const Cart = () => {
             <StripeCheckout
               name="Universidad La Salle Oaxaca"
               image="https://www.fimpes.org.mx/images/universidades/ulsaoaxaca.jpg"
-              billingAddress
-              shippingAddress
-              description={`Tu toal es: $${cart.total}`}
+              description={`Tu total es: $${cart.total}`}
               amount={cart.total * 100}
               token={onToken}
               stripeKey={KEY}

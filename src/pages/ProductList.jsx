@@ -55,33 +55,33 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Title>{cat}</Title>
-      <FilterContainer>
+      <FilterContainer> 
         <Filter>
-          <FilterText>Filter Products:</FilterText>
+          <FilterText>Filtrar Productos:</FilterText>
           <Select name="color" onChange={handleFilters}>
             <Option disabled>Color</Option>
-            <Option>white</Option>
-            <Option>black</Option>
-            <Option>red</Option>
-            <Option>blue</Option>
-            <Option>yellow</Option>
-            <Option>green</Option>
+            <Option>Blanco</Option>
+            <Option>Negro</Option>
+            <Option>Rojo</Option>
+            <Option>Azul</Option>
+            <Option>Amarillo</Option>
+            <Option>Verde</Option>
           </Select>
           <Select name="size" onChange={handleFilters}>
-            <Option disabled>Size</Option>
-            <Option>XS</Option>
-            <Option>S</Option>
+            <Option disabled>Tamaño</Option>
+            <Option>EC</Option>
+            <Option>C</Option>
             <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
+            <Option>G</Option>
+            <Option>EG</Option>
           </Select>
         </Filter>
         <Filter>
-          <FilterText>Sort Products:</FilterText>
+          <FilterText>Ordenar Productos:</FilterText>
           <Select onChange={(e) => setSort(e.target.value)}>
-            <Option value="newest">Newest</Option>
-            <Option value="asc">Price (asc)</Option>
-            <Option value="desc">Price (desc)</Option>
+            <Option value="newest">Lo más nuevo</Option>
+            <Option value="asc">Lo más vendido</Option>
+            <Option value="desc">Lo más escolar</Option>
           </Select>
         </Filter>
       </FilterContainer>
