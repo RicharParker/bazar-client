@@ -235,7 +235,7 @@ const Cart = () => {
               image="https://www.fimpes.org.mx/images/universidades/ulsaoaxaca.jpg"
               billingAddress
               shippingAddress
-              description={`Tu toal es: $${cart.total}`}
+              description={`Tu total es: $${cart.total}`}
               amount={cart.total * 100}
               token={onToken}
               stripeKey={KEY}
