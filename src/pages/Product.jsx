@@ -1,11 +1,13 @@
 import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
+import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { publicRequest } from "../requestMethods";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 
@@ -127,6 +129,15 @@ const Product = () => {
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch {}
+    };
+    getProduct();
+  }, [id]);
 
   const handleQuantity = (type) => {
     if (type === "dec") {
@@ -144,6 +155,7 @@ const Product = () => {
   return (
     <Container>
       <Navbar />
+      <Announcement />
       <Wrapper>
         <ImgContainer>
           <Image src={product.img} />
@@ -174,7 +186,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
+            <Button onClick={handleClick}>Añadir al carrito</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

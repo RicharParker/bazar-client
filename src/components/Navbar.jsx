@@ -25,7 +25,7 @@ const Left = styled.div`
 `;
 
 const imageStyle = {
-  width: '180px',
+  width: '200px',
 };
 const SearchContainer = styled.div`
   border: 0.5px solid lightgray;
@@ -61,7 +61,8 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
-  const quantity = useSelector(state=>state.cart.quantity)
+  const cart = useSelector((state) => state.cart);
+  const quantity = Math.max(cart.products.length, 0);
   return (
     <Container>
       <Wrapper>
@@ -72,16 +73,20 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <img src="https://www.fimpes.org.mx/images/universidades/ulsaoaxaca.jpg" alt="Logo" style={imageStyle} />
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <img src="https://www.fimpes.org.mx/images/universidades/ulsaoaxaca.jpg" alt="Logo" style={imageStyle} />
+          </Link>
         </Center>
         <Right>
-          <MenuItem>Login</MenuItem>
+          <Link to="/Login" style={{ textDecoration: 'none' }}>
+            <MenuItem>Login</MenuItem>
+          </Link>
           <Link to="/cart">
-          <MenuItem>
-            <Badge badgeContent={quantity} color="primary" overlap="rectangular">
-              <ShoppingCartOutlined />
-            </Badge>
-          </MenuItem>
+            <MenuItem>
+              <Badge badgeContent={quantity} color="primary" overlap="rectangular">
+                <ShoppingCartOutlined />
+              </Badge>
+            </MenuItem>
           </Link>
         </Right>
       </Wrapper>

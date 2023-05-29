@@ -49,7 +49,7 @@ const Button = styled.button`
 const Newsletter = () => {
   return (
     <Container>
-      <Title>Noticas</Title>
+      <Title>Noticias</Title>
       <Desc>Obten actualizaciones de descuentos en productos del bazar</Desc>
       <InputContainer>
         <Input placeholder="Correo Institucional" />

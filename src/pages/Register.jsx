@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -9,7 +8,7 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("https://images.squarespace-cdn.com/content/v1/6123ebd79384bb18e8325908/dd8eea1e-3f01-45e5-a9b8-ba1172f00930/Portafolio1.jpg?format=500w")
+    url("https://images.pexels.com/photos/6984661/pexels-photo-6984661.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
       center;
   background-size: cover;
   display: flex;
@@ -18,7 +17,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 25%;
+  width: 40%;
   padding: 20px;
   background-color: white;
   ${mobile({ width: "75%" })}
@@ -31,63 +30,51 @@ const Title = styled.h1`
 
 const Form = styled.form`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 `;
 
 const Input = styled.input`
   flex: 1;
   min-width: 40%;
-  margin: 10px 0;
+  margin: 20px 10px 0px 0px;
   padding: 10px;
+`;
+
+const Agreement = styled.span`
+  font-size: 12px;
+  margin: 20px 0px;
 `;
 
 const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: blue;
+  background-color: teal;
   color: white;
   cursor: pointer;
-  margin-bottom: 10px;
-  &:disabled {
-    color: green;
-    cursor: not-allowed;
-  }
 `;
 
-const Links = styled.a`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-`;
-
-const Error = styled.span`
-  color: red;
-`;
-
-const Login = () => {
-
+const Register = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>Iniciar Sesión</Title>
+        <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input
-            placeholder="Nombre de usuario"
-          />
-          <Input
-            placeholder="contraseña"
-            type="password"
-          />
-          <Button>
-            Acceder
-          </Button>
-          <Link to ="/register">Crea una cuenta nueva</Link>
+          <Input placeholder="name" />
+          <Input placeholder="last name" />
+          <Input placeholder="username" />
+          <Input placeholder="email" />
+          <Input placeholder="password" />
+          <Input placeholder="confirm password" />
+          <Agreement>
+            By creating an account, I consent to the processing of my personal
+            data in accordance with the <b>PRIVACY POLICY</b>
+          </Agreement>
+          <Button>CREATE</Button>
         </Form>
       </Wrapper>
     </Container>
   );
 };
 
-export default Login;
+export default Register;
