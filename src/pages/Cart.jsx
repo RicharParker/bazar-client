@@ -1,4 +1,4 @@
-import { Add, Remove, Delete } from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { removeProduct } from "../redux/cartRedux";
@@ -7,10 +7,16 @@ import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { ToastContainer, toast } from 'react-toastify/dist/react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 
 const KEY = process.env.REACT_APP_STRIPE;
+
+
 
 const Container = styled.div``;
 
@@ -162,26 +168,137 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-  const history = useHistory();
-  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
-  const handleQuantity = (type) => {
-    if (type === "dec") {
-      quantity > 1 && setQuantity(quantity - 1);
-    } else {
-      setQuantity(quantity + 1);
-    }
-  };
 
   const handleRemoveProduct = (productId) => {
     dispatch(removeProduct(productId));
   };
 
-
   const onToken = (token) => {
     setStripeToken(token);
   };
+
+
+  const generatePDF = async () => {
+    const confirmationPromise = new Promise((resolve, reject) => {
+      Swal.fire({
+        title: '¿Estás seguro de realizar la compra?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          reject(new Error('Compra cancelada'));
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    try {
+      await confirmationPromise;
+  
+      toast.promise(
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+        {
+          pending: 'Realizando la compra...',
+          error: 'Se canceló la compra',
+          hideProgressBar: true, 
+        }
+      );
+
+      // Continue generating the PDF
+      const pdfDoc = await PDFDocument.create();
+      const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+      const page = pdfDoc.addPage();
+      const { width, height } = page.getSize();
+
+      const fontSize = 12;
+      const lineHeight = 20;
+      const margin = 50;
+
+      let y = height - margin;
+
+      page.drawText("Elementos del Carrito", {
+        x: margin,
+        y,
+        size: 18,
+        font: timesRomanFont,
+        color: rgb(0, 0, 0.5),
+      });
+
+      y -= lineHeight * 2;
+
+      cart.products.forEach((product) => {
+        page.drawText(`Producto: ${product.title}`, {
+          x: margin,
+          y,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        });
+
+        y -= lineHeight;
+
+        page.drawText(`ID: ${product._id}`, {
+          x: margin,
+          y,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        });
+
+        y -= lineHeight;
+
+        page.drawText(`Tamaño: ${product.size}`, {
+          x: margin,
+          y,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        });
+
+        y -= lineHeight;
+
+
+
+        y -= lineHeight;
+      });
+
+
+      const pdfBytes = await pdfDoc.save();
+      const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
+      const link = document.createElement("a");
+      link.href = pdfDataUri;
+      link.download = "carrito.pdf";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.style.textDecoration = "none";
+      link.style.padding = "10px";
+      link.style.backgroundColor = "black";
+      link.style.color = "white";
+      link.style.fontWeight = "600";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Remove the cart items after generating the PDF
+      cart.products.forEach((product) => {
+        dispatch(removeProduct(product._id));
+      });
+      toast.success('Compra generada exitosamente', { autoClose: 2000 }); 
+    } catch (error) {
+      toast.error(error.message, { autoClose: 2000 });
+      console.log('Error al comprar:', error);
+    }
+  };
+
+
+
   return (
     <Container>
       <Navbar />
@@ -189,13 +306,17 @@ const Cart = () => {
         <Title>Tu Compra</Title>
         <Top>
           <TopButton>Seguir comprando</TopButton>
-          { /*<TopTexts>
+        </Top>
+        {/* <Top>
+          <TopButton>Seguir comprando</TopButton>
+          <TopTexts>
             <TopText>Bolsa de la compra(1)</TopText>
             <TopText>Tu lista de deseos (0)</TopText>
-            </TopTexts>*/}
-          {/*  <TopButton type="filled">CHEQUEAR AHORA
-          </TopButton>*/}
-        </Top>
+          </TopTexts>
+          <TopButton type="filled" onClick={handleConfirmPurchase}>
+            CHEQUEAR AHORA
+          </TopButton>
+  </Top>*/}
         <Bottom>
           <Info>
             {cart.products.map((product) => (
@@ -246,25 +367,14 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout
-              name="Universidad La Salle Oaxaca"
-              image="https://www.fimpes.org.mx/images/universidades/ulsaoaxaca.jpg"
-              billingAddress
-              shippingAddress
-              description={`Tu total es: $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <Button>Pago</Button>
-            </StripeCheckout>
+            <Button onClick={generatePDF}>Comprar</Button>
           </Summary>
         </Bottom>
       </Wrapper>
       <Footer />
+      <ToastContainer />
     </Container>
   );
 };
-
 
 export default Cart;
